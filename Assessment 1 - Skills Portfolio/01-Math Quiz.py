@@ -1,3 +1,4 @@
+import random
 import tkinter as tk
 
 # the main items
@@ -9,6 +10,11 @@ root.resizable(False, False)
 # this function allows the frames to be switched between eachother
 def showframe(frame):
     frame.tkraise()
+
+def randomInt():
+    Easy = random.randomint(1, 9)
+    Moderate = random.randomint(10, 99)
+    Advanced = random.randomint(1000, 9999)
 
 # simple menu, nothing too fancy
 menu = tk.Frame(root, width=1080, height=720, bg="lightblue")
@@ -30,15 +36,22 @@ menu.place(x=0, y=0)
 
 # the frames for different difficulties
 easy = tk.Frame(root, width=1080, height=720, bg="green")
+easywidget = tk.Entry(easy, font=("Arial", 20,), fg="black")
+easywidget.place(relx=0.5, rely=0.5, anchor="center")
+submit = tk.Button(easy, text="Submit", font=("Arial", 20,), fg="black")
+submit.place(relx=0.5, rely=0.6, anchor="center")
+
 back_button1 = tk.Button(easy, text="Back", font=("Arial", 20,), fg="black", command=lambda: showframe(menu))
 back_button1.place(relx=0.5, rely=0.9, anchor="center")
 easy.place(x=0, y=0)
 
+#moderate frame
 moderate = tk.Frame(root, width=1080, height=720, bg="yellow")
 back_button1 = tk.Button(moderate, text="Back", font=("Arial", 20,), fg="black", command=lambda: showframe(menu))
 back_button1.place(relx=0.5, rely=0.9, anchor="center")
 moderate.place(x=0, y=0)
 
+#advanced frame
 advanced = tk.Frame(root, width=1080, height=720, bg="red")
 back_button1 = tk.Button(advanced, text="Back", font=("Arial", 20,), fg="black", command=lambda: showframe(menu))
 back_button1.place(relx=0.5, rely=0.9, anchor="center")
