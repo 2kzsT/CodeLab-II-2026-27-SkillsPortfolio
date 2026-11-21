@@ -36,7 +36,7 @@ def generateQuestion():
 
 # This function tells whether the answer given is correct or not, giving 10 points each correct answer (add second chance 5pts later on)
 def checkAnswer():
-    global scorelabel, attempts
+    global scorelabel, attempts, restartbutton
     if questionNumber.get() > 10 :
         return
     global resultlabel
@@ -66,12 +66,14 @@ def checkAnswer():
         scorelabel.destroy()
         scorelabel = tk.Label(easy, text=f"Final score: {score.get()}\n {rankings(score.get())}", font=("arial, 20"), fg="black")
         scorelabel.place(relx=0.5, rely=0.7, anchor="center")
+        restartbutton = tk.Button(easy, text="Do you want to restart?", font=("arial", 20), fg="black", command=Restart)
+        restartbutton.place(relx=0.5, rely=0.8, anchor="center")
         questionNumber.set(11)
     else: generateQuestion()
 
 # a function for restart, will be used soon when 5pts is implemented and all the difficulties are done
 def Restart():
-    global scorelabel, resultlabel
+    global scorelabel, resultlabel, restartbutton
     scorelabel.destroy()
     resultlabel.config(text="Result", fg="black")
     score.set(0)
@@ -80,8 +82,11 @@ def Restart():
     generateQuestion()
     scorelabel = tk.Label(easy, text=f"Score: {score.get()}", font=("arial", 20), fg="black")
     scorelabel.place(relx=0.5, rely=0.7, anchor="center")
+    restartbutton.destroy()
+    
+def Back():
+    Restart()
     showframe(menu)
-
 
 #BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER
 
@@ -101,7 +106,7 @@ def generateQuestion2():
 
 # This function tells whether the answer given is correct or not, giving 10 points each correct answer (add second chance 5pts later on)
 def checkAnswer2():
-    global scorelabel2, attempts
+    global scorelabel2, attempts, restartbutton2
     if questionNumber.get() > 10 :
         return
     global resultlabel2
@@ -131,12 +136,14 @@ def checkAnswer2():
         scorelabel2.destroy()
         scorelabel2 = tk.Label(moderate, text=f"Final score: {score.get()}\n {rankings(score.get())}", font=("arial, 20"), fg="black")
         scorelabel2.place(relx=0.5, rely=0.7, anchor="center")
+        restartbutton2 = tk.Button(moderate, text="Do you want to restart?", font=("arial", 20), fg="black", command=Restart2)
+        restartbutton2.place(relx=0.5, rely=0.8, anchor="center")
         questionNumber.set(11)
     else: generateQuestion2()
 
 # a function for restart, will be used soon when 5pts is implemented and all the difficulties are done
 def Restart2():
-    global scorelabel2, resultlabel2
+    global scorelabel2, resultlabel2, restartbutton2
     scorelabel2.destroy()
     resultlabel2.config(text="Result", fg="black")
     score.set(0)
@@ -145,6 +152,10 @@ def Restart2():
     generateQuestion2()
     scorelabel2 = tk.Label(moderate, text=f"Score: {score.get()}", font=("arial", 20), fg="black")
     scorelabel2.place(relx=0.5, rely=0.7, anchor="center")
+    restartbutton2.destroy()
+    
+def Back2():
+    Restart2()
     showframe(menu)
 
 #BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER
@@ -160,12 +171,12 @@ def generateQuestion3():
     answer.set(eval(question.get()))
     if questionlabel3:
         questionlabel3.destroy()
-    questionlabel3 = tk.Label(advanced, text=f"Final score: {score.get()}\n {rankings(score.get())}", font=("arial", 20))
+    questionlabel3 = tk.Label(advanced, text=f"Question : {question.get()}", font=("arial", 20))
     questionlabel3.place(relx=0.5, rely=0.3, anchor="center")
 
 # This function tells whether the answer given is correct or not, giving 10 points each correct answer (add second chance 5pts later on)
 def checkAnswer3():
-    global scorelabel3, attempts
+    global scorelabel3, attempts, restartbutton3
     if questionNumber.get() > 10 :
         return
     global resultlabel3
@@ -193,8 +204,10 @@ def checkAnswer3():
     givenAnswer.set("")
     if questionNumber.get() == 10:
         scorelabel3.destroy()
-        scorelabel3 = tk.Label(advanced, text=f"Final score: {score.get()}", font=("arial, 20"), fg="black")
+        scorelabel3 = tk.Label(advanced, text=f"Final score: {score.get()}\n {rankings(score.get())}", font=("arial, 20"), fg="black")
         scorelabel3.place(relx=0.5, rely=0.7, anchor="center")
+        restartbutton3 = tk.Button(advanced, text="Do you want to restart?", font=("arial", 20), fg="black", command=Restart3)
+        restartbutton3.place(relx=0.5, rely=0.8, anchor="center")
         questionNumber.set(11)
     else: generateQuestion3()
 
@@ -207,11 +220,13 @@ def Restart3():
     questionNumber.set(0)
     givenAnswer.set("")
     generateQuestion3()
-    scorelabel3 = tk.Label(easy, text=f"Score: {score.get()}", font=("arial", 20), fg="black")
+    scorelabel3 = tk.Label(advanced, text=f"Score: {score.get()}", font=("arial", 20), fg="black")
     scorelabel3.place(relx=0.5, rely=0.7, anchor="center")
-    showframe(menu)
+    restartbutton3.destroy()
 
-#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER
+def Back3():
+    Restart3()
+    showframe(menu)
 
 def rankings(finalscore):
     if finalscore == 100:
@@ -260,7 +275,7 @@ resultlabel = tk.Label(easy, text="Result", font=("arial", 20), fg="black")
 resultlabel.place(relx=0.5, rely=0.6, anchor="center")
 scorelabel = tk.Label(easy, text=f"Score : {score.get()}", font=("arial", 20), fg="black")
 scorelabel.place(relx=0.5, rely=0.7, anchor="center")
-back_button1 = tk.Button(easy, text="Back", font=("Arial", 20,), fg="black", command=Restart)
+back_button1 = tk.Button(easy, text="Back", font=("Arial", 20,), fg="black", command=Back)
 back_button1.place(relx=0.5, rely=0.9, anchor="center")
 easy.place(x=0, y=0)
 
@@ -278,7 +293,7 @@ resultlabel2 = tk.Label(moderate, text="Result", font=("arial", 20), fg="black")
 resultlabel2.place(relx=0.5, rely=0.6, anchor="center")
 scorelabel2 = tk.Label(moderate, text=f"Score : {score.get()}", font=("arial", 20), fg="black")
 scorelabel2.place(relx=0.5, rely=0.7, anchor="center")
-back_button1 = tk.Button(moderate, text="Back", font=("Arial", 20,), fg="black", command=Restart2)
+back_button1 = tk.Button(moderate, text="Back", font=("Arial", 20,), fg="black", command=Back2)
 back_button1.place(relx=0.5, rely=0.9, anchor="center")
 moderate.place(x=0, y=0)
 
@@ -296,7 +311,7 @@ resultlabel3 = tk.Label(advanced, text="Result", font=("arial", 20), fg="black")
 resultlabel3.place(relx=0.5, rely=0.6, anchor="center")
 scorelabel3 = tk.Label(advanced, text=f"Score : {score.get()}", font=("arial", 20), fg="black")
 scorelabel3.place(relx=0.5, rely=0.7, anchor="center")
-back_button1 = tk.Button(advanced, text="Back", font=("Arial", 20,), fg="black", command=Restart3)
+back_button1 = tk.Button(advanced, text="Back", font=("Arial", 20,), fg="black", command=Back3)
 back_button1.place(relx=0.5, rely=0.9, anchor="center")
 advanced.place(x=0, y=0)
 
