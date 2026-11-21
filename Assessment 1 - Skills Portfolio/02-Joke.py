@@ -38,6 +38,10 @@ def showJoke():
 def quit():
     root.destroy()
 
+def back():
+    dependancybutton()
+    showframe(mainmenu)
+
 mainmenu = tk.Frame(root, width="1080", height="720", bg="lightblue")
 menulabel1 = tk.Label(mainmenu, text="The JOKER's Circus!", font=("Arial", 24,), fg="black")
 menulabel1.place(relx=0.5, rely=0.2, anchor="center")
@@ -57,7 +61,7 @@ displayjoke.place(relx=0.3, rely=0.5, anchor="center")
 dispalypunchline = tk.Button(jokepage, text="Show me the punch line!", font=("Arial", 20), fg="black", width=20, command=showJoke)
 dispalypunchline.place(relx=0.7, rely=0.5, anchor="center")
 nextbutton = tk.Button(jokepage, text="Next Joke", font=("Arial", 20), fg="black", width=20, command=dependancybutton)
-backbutton = tk.Button(jokepage, text="Back", font=("Arial", 20), fg="black", width=20, command=lambda: (showframe(mainmenu)))
+backbutton = tk.Button(jokepage, text="Back", font=("Arial", 20), fg="black", width=20, command=back)
 backbutton.place(relx=0.5, rely=0.8, anchor="center")
 
 jokepage.place(x=0, y=0)
