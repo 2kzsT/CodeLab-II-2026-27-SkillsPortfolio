@@ -64,7 +64,7 @@ def checkAnswer():
     givenAnswer.set("")
     if questionNumber.get() == 10:
         scorelabel.destroy()
-        scorelabel = tk.Label(easy, text=f"Final score: {score.get()}", font=("arial, 20"), fg="black")
+        scorelabel = tk.Label(easy, text=f"Final score: {score.get()}\n {rankings(score.get())}", font=("arial, 20"), fg="black")
         scorelabel.place(relx=0.5, rely=0.7, anchor="center")
         questionNumber.set(11)
     else: generateQuestion()
@@ -81,6 +81,7 @@ def Restart():
     scorelabel = tk.Label(easy, text=f"Score: {score.get()}", font=("arial", 20), fg="black")
     scorelabel.place(relx=0.5, rely=0.7, anchor="center")
     showframe(menu)
+
 
 #BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER
 
@@ -128,7 +129,7 @@ def checkAnswer2():
     givenAnswer.set("")
     if questionNumber.get() == 10:
         scorelabel2.destroy()
-        scorelabel2 = tk.Label(moderate, text=f"Final score: {score.get()}", font=("arial, 20"), fg="black")
+        scorelabel2 = tk.Label(moderate, text=f"Final score: {score.get()}\n {rankings(score.get())}", font=("arial, 20"), fg="black")
         scorelabel2.place(relx=0.5, rely=0.7, anchor="center")
         questionNumber.set(11)
     else: generateQuestion2()
@@ -159,7 +160,7 @@ def generateQuestion3():
     answer.set(eval(question.get()))
     if questionlabel3:
         questionlabel3.destroy()
-    questionlabel3 = tk.Label(advanced, text=f"Question : {question.get()}", font=("arial", 20))
+    questionlabel3 = tk.Label(advanced, text=f"Final score: {score.get()}\n {rankings(score.get())}", font=("arial", 20))
     questionlabel3.place(relx=0.5, rely=0.3, anchor="center")
 
 # This function tells whether the answer given is correct or not, giving 10 points each correct answer (add second chance 5pts later on)
@@ -209,6 +210,20 @@ def Restart3():
     scorelabel3 = tk.Label(easy, text=f"Score: {score.get()}", font=("arial", 20), fg="black")
     scorelabel3.place(relx=0.5, rely=0.7, anchor="center")
     showframe(menu)
+
+#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER
+
+def rankings(finalscore):
+    if finalscore == 100:
+        return "Rank S (AMAZING WORK!)"
+    elif finalscore >= 80:
+        return "Rank A (Good job!)"
+    elif finalscore >=50:
+        return "Rank B (Not bad!)"
+    elif finalscore >=40:
+        return "Rank C (You could do better!)"
+    else:
+        return "Rank F (How do you even manage that?!)"
 
 
 #USER INTERFACE
