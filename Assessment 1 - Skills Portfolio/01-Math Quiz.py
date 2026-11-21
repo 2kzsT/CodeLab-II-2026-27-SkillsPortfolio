@@ -18,6 +18,21 @@ attempts = 0
 # this function allows the frames to be switched between eachother
 def showframe(frame):
     frame.tkraise()
+    
+def starteasy():
+    questionNumber.set(0)
+    generateQuestion()
+    showframe(easy)
+
+def startmoderate():
+    questionNumber.set(0)
+    generateQuestion2()
+    showframe(moderate)
+
+def startadvanced():
+    questionNumber.set(0)
+    generateQuestion3()
+    showframe(advanced)
 
 # This function allows the questions to be generated, it randomizes it between 1-9 for now (easy), will implement moderate and advanced later on
 def generateQuestion():
@@ -85,7 +100,6 @@ def Restart():
     restartbutton.destroy()
     
 def Back():
-    Restart()
     showframe(menu)
 
 #BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER
@@ -155,7 +169,6 @@ def Restart2():
     restartbutton2.destroy()
     
 def Back2():
-    Restart2()
     showframe(menu)
 
 #BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER#BORDER
@@ -225,7 +238,6 @@ def Restart3():
     restartbutton3.destroy()
 
 def Back3():
-    Restart3()
     showframe(menu)
 
 def rankings(finalscore):
@@ -253,11 +265,11 @@ menulabel3 = tk.Label(menu, text="Please Select the Difficulty Level", font=("Ar
 menulabel3.place(relx=0.5, rely=0.38, anchor="center")
 
 # the buttons for the different difficulties
-easybutton = tk.Button(menu, text="Easy", font=("Arial", 20,), fg="black", command=lambda: showframe(easy))
+easybutton = tk.Button(menu, text="Easy", font=("Arial", 20,), fg="black", command=starteasy)
 easybutton.place(relx=0.25, rely=0.6, anchor="center")
-moderatebutton = tk.Button(menu, text="Moderate", font=("Arial", 20,), fg="black", command=lambda: showframe(moderate))
+moderatebutton = tk.Button(menu, text="Moderate", font=("Arial", 20,), fg="black", command=startmoderate)
 moderatebutton.place(relx=0.5, rely=0.6, anchor="center")
-advancedbutton = tk.Button(menu, text="Advanced", font=("Arial", 20,), fg="black", command=lambda: showframe(advanced))
+advancedbutton = tk.Button(menu, text="Advanced", font=("Arial", 20,), fg="black", command=startadvanced)
 advancedbutton.place(relx=0.75, rely=0.6, anchor="center")
 menu.place(x=0, y=0)
 
@@ -315,8 +327,5 @@ back_button1 = tk.Button(advanced, text="Back", font=("Arial", 20,), fg="black",
 back_button1.place(relx=0.5, rely=0.9, anchor="center")
 advanced.place(x=0, y=0)
 
-generateQuestion()
-generateQuestion2()
-generateQuestion3()
 menu.tkraise() # <- this allows the menu to be the first frame that the program is showing
 root.mainloop()
