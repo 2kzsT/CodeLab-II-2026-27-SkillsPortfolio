@@ -3,16 +3,18 @@ from tkinter import messagebox
 import json
 import os 
 
+#the main items
 root = tk.Tk()
 root.title("Student Manager")
 root.resizable(False, False)
 root.geometry("1080x720")
 root.config(bg="#2F2F94")
 
+# JSON_FILE is used to read the .json file so itll be accessible
 JSON_FILE = "studentMarks.json"
-TXT_FILE = "studentMarks.txt"
 
-with open("studentMarks.json", "r", encoding="utf-8") as file:
+#reads the .json
+with open(JSON_FILE, "r", encoding="utf-8") as file:
     records = json.load(file)
 
 students = []
@@ -24,8 +26,6 @@ for subject in records:
         "examscore": subject[5],
     })
 
-def percentage(students):
-    return (students["coursework"] + students["examscore"]) / 160 * 100
 
 def grade(percentage):
     if percentage >= 70:
@@ -50,6 +50,10 @@ def library(student):
         f"Student Grade: {grade(percent)}",
     ]
     return "\n".join(lines) + "\n"
+
+#calculates the student's coursework with the exam score to figure out the overall %
+def percentage(students):
+    return (students["coursework"] + students["examscore"]) / 160 * 100
 
 def show_allstudents():
     message = ""
