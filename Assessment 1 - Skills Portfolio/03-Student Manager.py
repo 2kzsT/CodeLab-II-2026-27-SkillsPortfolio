@@ -8,7 +8,6 @@ root = tk.Tk()
 root.title("Student Manager")
 root.resizable(False, False)
 root.geometry("1080x720")
-root.config(bg="#2F2F94")
 
 # JSON_FILE is used to read the .json file so itll be accessible
 JSON_FILE = "studentMarks.json"
@@ -88,28 +87,40 @@ def show_individual():
 # This allows the search function to work in the individuals
     def search():
         student_searched = enter_id.get().strip()
-        message = "Student is Not Found"
         for s in students:
             if s["id"] == student_searched:
-                message = library(s)
-                break
-        result_label.config(text=message)
+                show(library(s))
+                individualmenu.destroy()
+                return
+            result_label.config(text="Student is Not Found")
 
     search_button = tk.Button(individualmenu, text="Search", command=search)
     search_button.place(relx=0.5, rely=0.3, anchor="center")
 
+#These functions are used for sorting the HIGHEST and LOWEST scored students
+def highest_score():
+    top_student = max(students, key=percentage)
+    show("STUDENT WITH HIGHEST MARK:\n\n" + library(top_student))
+
+def lowest_score():
+    bottom_student = min(students, key=percentage)
+    show("STUDENT WITH LOWEST MARK:\n\n" + library(bottom_student))
 
 
 # the actual app/software
-mainmenu = tk.Frame(root, width=1080, height=720, bg="#2F2F94")
-title = tk.Label(mainmenu, text="The Library's Student Records", font =("arial", 25), fg="white")
+mainmenu = tk.Frame(root, width=1080, height=720, bg="#202030")
+title = tk.Label(mainmenu, text="The Library's Student Records", font =("arial", 25), fg="white", bg="#202030")
 title.place(relx=0.5, rely=0.1, anchor="center")
-whitearea = tk.Text(mainmenu, bg="#FFFFFF", state=tk.DISABLED)
+whitearea = tk.Text(mainmenu, bg="#0C0C0C", fg="white", state=tk.DISABLED)
 whitearea.place (relx=0.5, rely=0.6, anchor="center", width= 800, height=500)
 view_all = tk.Button(mainmenu, text="View all Students", command=show_allstudents)
 view_all.place(relx=0.2, rely=0.2, anchor="center")
 individual = tk.Button(mainmenu, text="View Individual Students", command=show_individual)
 individual.place(relx=0.4, rely=0.2, anchor="center")
+view_highest = tk.Button(mainmenu, text="View Highest", command=highest_score)
+view_highest.place(relx=0.4, rely=0.3, anchor="center")
+view_lowest = tk.Button(mainmenu, text="View Lowest", command=lowest_score)
+view_lowest.place(relx=0.4, rely=0.4, anchor="center")
 mainmenu.place(x=0, y=0)
 
 
