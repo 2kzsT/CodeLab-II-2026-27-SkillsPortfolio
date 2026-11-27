@@ -98,17 +98,20 @@ def show_individual():
     search_button.place(relx=0.5, rely=0.3, anchor="center")
 
 #These functions are used for sorting the HIGHEST and LOWEST scored students, along with a system that organizes it alphabetically
+# highest scored students
 def highest_score():
     top_student = max(students, key=percentage)
     show("STUDENT WITH HIGHEST MARK:\n\n" + library(top_student))
 
+# lowest scored students
 def lowest_score():
     bottom_student = min(students, key=percentage)
     show("STUDENT WITH LOWEST MARK:\n\n" + library(bottom_student))
 
+# alphabetical order
 def alphabetical_score():
     message = "ALPHABETICAL ORDER (A-Z):\n\n"
-    for student in sorted(students, key=lambda s: s["name"].lower()):
+    for student in sorted(students, key=lambda x: x["name"]):
         message += library(student) + "\n"
     show(message)
 
@@ -119,13 +122,15 @@ def show_sort():
     sort_menu.geometry("400x350")
     sort_menu.resizable(False, False)
 
-    sort_title = tk.Label(sort_menu, text="Choose How to Sort:", font=("Arial", 12))
+    sort_title = tk.Label(sort_menu, text="Sort the Data:", font=("Arial", 12))
     sort_title.place(relx=0.5, rely=0.1, anchor="center")
 
+# a system that makes it so that the popup is destroyed whenever the user clicks on a button
     def choose(action):
         action()
         sort_menu.destroy() 
 
+# all the buttons within the sort menu, placed in the functions itself for easier access
     view_alphabetical = tk.Button (sort_menu, text="View Alphabetical (A-Z)", command=lambda: choose(alphabetical_score))
     view_alphabetical.place(relx=0.5, rely=0.3, anchor="center")
     view_highest = tk.Button(sort_menu, text="View Highest", command=lambda: choose(highest_score))
