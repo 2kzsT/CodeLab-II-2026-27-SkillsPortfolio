@@ -1,3 +1,5 @@
+# CODELAB ASSESSMENT - Exercise 1 
+# By Hanz Athane Iñigo G. Muñoz / Cyber Security Y2 G1
 import random
 import tkinter as tk
 
