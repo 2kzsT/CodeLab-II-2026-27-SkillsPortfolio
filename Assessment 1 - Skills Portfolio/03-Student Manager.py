@@ -18,6 +18,7 @@ with open(JSON_FILE, "r", encoding="utf-8") as file:
 
 #student's main data
 students = []
+
 for subject in records:
     students.append({
         "id": subject[0],
@@ -25,6 +26,138 @@ for subject in records:
         "coursework": subject[2] + subject[3] + subject[4],
         "examscore": subject[5],
     })
+
+# runs at the start of every add/delete/update, so the records stay updated
+def refresh_students():
+    students.clear()
+    for subject in records:
+        students.append({
+            "id": subject[0],
+            "name": subject[1],
+            "coursework": subject[2] + subject[3] + subject[4],
+            "examscore": subject[5],
+        })
+
+# this function saves the records being added/delteted/updated
+def save_records():
+    with open(JSON_FILE, "w", encoding="utf-8") as file:
+        json.dump(records, file)
+
+refresh_students()
+
+# this function is used for scouring the database for the records of students
+def find(student_id):
+    for i in range(len(records)):
+        if records[i][0] == student_id:
+            return i
+    return None
+
+
+def create_entries(window, labels):
+    entries = []
+    for text in labels:
+        create_entries_label = tk.Label(window, text=text)
+        create_entries_label.pack(pady=(8, 0))
+        create_entry = tk.Entry(window)
+        create_entry.pack()
+        entries.append(create_entry)
+    return entries
+
+def get_record(entries):
+    try:
+        record = [entries[0].get().strip(), entries[1].get().strip(),
+                  int(entries[2].get()), int(entries[3].get()),
+                  int(entries[4].get()), int(entries[5].get())]
+    except ValueError:
+        return None
+    id_yes = record[0].isdigit() and 1000 <= int(record[0]) <= 9999
+    marks_yes = all(0 <= m <= 20 for m in record[2:5]) and 0 <= record[5] <= 100
+    if id_yes and marks_yes and record[1] != "":
+        return record
+    return None
+
+FORM_LABELS = [
+    "Student Number (1000-9999):", "Student Name:",
+    "Coursework 1 (out of 20):",
+    "Coursework 2 (out of 20):",
+    "Coursework 3 (out of 20):",
+    "Exam (out of 100):"
+]
+
+def show_add():
+    add_menu = tk.Toplevel(root)
+    add_menu.title("Add Student")
+    add_menu.geometry("400x350")
+    add_menu.resizable(False, False)
+    entries = create_entries(add_menu, FORM_LABELS)
+
+    def add():
+        record = get_record(entries)
+        if record is None:
+            messagebox.showerror("Error", "Please complete the information", parent=add_menu)
+        elif find(record[0]) is not None:
+            messagebox.showerror("Error", "The student record's number already exists", parent=add_menu)
+        else:
+            records.append(record)
+            save_records()
+            refresh_students()
+            show("STUDENT ADDED:\n\n" + library(students[-1]))
+            add_menu.destroy()
+
+    tk.Button(add_menu, text="Add Student", command=add).pack(pady=20)
+
+def show_delete():
+    delete_menu = tk.Toplevel(root)
+    delete_menu.title("Delete Student")
+    delete_menu.geometry("400x350")
+    delete_menu.resizable(False, False)
+    tk.Label(delete_menu, text="Enter the student number to delete:").pack(pady=(20, 5))
+    id_entry = tk.Entry(delete_menu)
+    id_entry.pack()
+
+    def delete():
+        i = find(id_entry.get().strip())
+        if i is None:
+            messagebox.showerror("Error", "Student is not found", parent=delete_menu)
+        elif messagebox.askyesno("Confirm", "Delete" + records[i][1] + "?", parent=delete_menu):
+            records.pop(i)
+            save_records()
+            refresh_students()
+            show("Student deleted")
+            delete_menu.destroy()
+
+    tk.Button(delete_menu, text="Delete Student", command=delete).pack(pady=20)
+
+def show_update():
+    update_menu = tk.Toplevel(root)
+    update_menu.title("Update Student")
+    update_menu.geometry("400x425")
+    update_menu.resizable(False, False)
+    tk.Label(update_menu, text="Enter the number of the student to update, \n type their new details in").pack(pady=(10, 0))
+    entries = create_entries(update_menu, FORM_LABELS)
+
+    def update():
+        record = get_record(entries)
+        if record is None:
+            messagebox.showerror("Error", "Please complete the information", parent=update_menu)
+            return
+        i = find(record[0])
+        if i is None:
+            messagebox.showerror("Error", "Student is not found", parent=update_menu)
+        else:
+            records[i] = record
+            save_records()
+            refresh_students()
+            show("STUDENT UPDATED:\n\n" + library(students[i]))
+            update_menu.destroy()
+
+    tk.Button(update_menu, text="Update Student", command=update).pack(pady=20)
+
+
+
+
+
+
 
 # the grade for each student
 def grade(percentage):
@@ -139,18 +272,28 @@ def show_sort():
     view_lowest.place(relx=0.5, rely=0.7, anchor="center")
 
 
+
+
+
+
 # the actual app/software
 mainmenu = tk.Frame(root, width=1080, height=720, bg="#202030")
 title = tk.Label(mainmenu, text="The Library's Student Records", font =("arial", 25), fg="white", bg="#202030")
 title.place(relx=0.5, rely=0.1, anchor="center")
 whitearea = tk.Text(mainmenu, bg="#0C0C0C", fg="white", state=tk.DISABLED)
-whitearea.place (relx=0.5, rely=0.6, anchor="center", width= 800, height=500)
+whitearea.place (relx=0.5, rely=0.6, anchor="center", width= 800, height=450)
 view_all = tk.Button(mainmenu, text="View all Students", command=show_allstudents)
 view_all.place(relx=0.2, rely=0.2, anchor="center")
 individual = tk.Button(mainmenu, text="View Individual Students", command=show_individual)
 individual.place(relx=0.4, rely=0.2, anchor="center")
 sort_button = tk.Button(mainmenu, text="SORT", command=show_sort)
 sort_button.place(relx=0.6, rely=0.2, anchor="center")
+add_button = tk.Button(mainmenu, text="ADD", command=show_add)
+add_button.place(relx=0.2, rely=0.9, anchor="center")
+update_button = tk.Button (mainmenu, text="UPDATE", command=show_update)
+update_button.place(relx=0.3, rely=0.9, anchor="center")
+delete_button = tk.Button(mainmenu, text="DELETE", command=show_delete)
+delete_button.place(relx=0.4, rely=0.9, anchor="center")
 mainmenu.place(x=0, y=0)
 
 
