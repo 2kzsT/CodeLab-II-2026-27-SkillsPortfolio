@@ -38,21 +38,21 @@ def refresh_students():
             "examscore": subject[5],
         })
 
-# this function saves the records being added/delteted/updated
+# this function saves the records being added/deleted/updated
 def save_records():
     with open(JSON_FILE, "w", encoding="utf-8") as file:
         json.dump(records, file)
 
 refresh_students()
 
-# this function is used for scouring the database for the records of students
+# this function is used for finding the student number in the records
 def find(student_id):
     for i in range(len(records)):
         if records[i][0] == student_id:
             return i
     return None
 
-
+# makes a label and entry box for every item it is in
 def create_entries(window, labels):
     entries = []
     for text in labels:
@@ -63,6 +63,7 @@ def create_entries(window, labels):
         entries.append(create_entry)
     return entries
 
+# this function turns the entry boxes into one record, but none if the data isn't valid
 def get_record(entries):
     try:
         record = [entries[0].get().strip(), entries[1].get().strip(),
@@ -84,6 +85,7 @@ FORM_LABELS = [
     "Exam (out of 100):"
 ]
 
+# function used to add students
 def show_add():
     add_menu = tk.Toplevel(root)
     add_menu.title("Add Student")
@@ -91,6 +93,7 @@ def show_add():
     add_menu.resizable(False, False)
     entries = create_entries(add_menu, FORM_LABELS)
 
+# dependancy for the function show_add, this section includes the actual contents such as messageboxes and required functions
     def add():
         record = get_record(entries)
         if record is None:
@@ -106,6 +109,7 @@ def show_add():
 
     tk.Button(add_menu, text="Add Student", command=add).pack(pady=20)
 
+# function used to delete students in the records
 def show_delete():
     delete_menu = tk.Toplevel(root)
     delete_menu.title("Delete Student")
@@ -115,11 +119,12 @@ def show_delete():
     id_entry = tk.Entry(delete_menu)
     id_entry.pack()
 
+# dependancy for the function show_delete, includes all the required code to make the command work
     def delete():
         i = find(id_entry.get().strip())
         if i is None:
             messagebox.showerror("Error", "Student is not found", parent=delete_menu)
-        elif messagebox.askyesno("Confirm", "Delete" + records[i][1] + "?", parent=delete_menu):
+        elif messagebox.askyesno("Confirm", "Delete " + records[i][1] + "?", parent=delete_menu):
             records.pop(i)
             save_records()
             refresh_students()
@@ -128,6 +133,7 @@ def show_delete():
 
     tk.Button(delete_menu, text="Delete Student", command=delete).pack(pady=20)
 
+# function used to update students in the records
 def show_update():
     update_menu = tk.Toplevel(root)
     update_menu.title("Update Student")
@@ -136,6 +142,7 @@ def show_update():
     tk.Label(update_menu, text="Enter the number of the student to update, \n type their new details in").pack(pady=(10, 0))
     entries = create_entries(update_menu, FORM_LABELS)
 
+# dependancy for the function show_update, contains the required code to update the students in the database
     def update():
         record = get_record(entries)
         if record is None:
@@ -152,12 +159,6 @@ def show_update():
             update_menu.destroy()
 
     tk.Button(update_menu, text="Update Student", command=update).pack(pady=20)
-
-
-
-
-
-
 
 # the grade for each student
 def grade(percentage):
@@ -196,6 +197,7 @@ def show_allstudents():
         message += library(student) + "\n"
     show(message)
 
+# puts the text into the white area (or in this case, black)
 def show(message):
     whitearea.config(state=tk.NORMAL)
     whitearea.delete("1.0", tk.END)
@@ -225,7 +227,7 @@ def show_individual():
                 show(library(s))
                 individualmenu.destroy()
                 return
-            result_label.config(text="Student is Not Found")
+        result_label.config(text="Student is Not Found")
 
     search_button = tk.Button(individualmenu, text="Search", command=search)
     search_button.place(relx=0.5, rely=0.3, anchor="center")
@@ -270,11 +272,6 @@ def show_sort():
     view_highest.place(relx=0.5, rely=0.5, anchor="center")
     view_lowest = tk.Button(sort_menu, text="View Lowest", command=lambda: choose(lowest_score))
     view_lowest.place(relx=0.5, rely=0.7, anchor="center")
-
-
-
-
-
 
 # the actual app/software
 mainmenu = tk.Frame(root, width=1080, height=720, bg="#202030")

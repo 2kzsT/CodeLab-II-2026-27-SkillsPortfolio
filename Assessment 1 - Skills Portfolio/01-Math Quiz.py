@@ -49,7 +49,7 @@ def generateQuestion():
     questionlabel = tk.Label(easy, text=f"Question : {question.get()}", font=("arial", 20))
     questionlabel.place(relx=0.5, rely=0.3, anchor="center")
 
-# This function tells whether the answer given is correct or not, giving 10 points each correct answer (add second chance 5pts later on)
+# This function tells whether the answer given is corre ct or not, giving 10 points each correct answer (add second chance 5pts later on)
 def checkAnswer():
     global scorelabel, attempts, restartbutton
     if questionNumber.get() > 10 :

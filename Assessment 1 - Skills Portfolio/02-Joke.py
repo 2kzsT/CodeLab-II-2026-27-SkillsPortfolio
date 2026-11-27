@@ -1,22 +1,27 @@
 import random
 import tkinter as tk
 
+# the main items
 root = tk.Tk()
 root.title("jokes!")
 root.geometry("1080x720")
 root.resizable(False, False)
 
+# function used to show which frame is being displayed
 def showframe(frame):
     frame.tkraise()
 
+# this function gathers all the data required to display the jokes
 with open("randomJokes.txt", "r", encoding="utf-8") as file:
     joke = [line for line in file.readlines() if "?" in line]
     punchline_text=""
 
+# the function used to display the joke being shown in the screen
 def jokeGenerator():
     if punchline_text == "":
         nextjoke()
 
+# this function changes the code into a random one selected from the .txt, repeating over and over
 def nextjoke():
     global punchline_text
     line1, line2 = random.choice(joke).split("?", 1)
@@ -25,6 +30,7 @@ def nextjoke():
     punchlinelabel.config(text="")
     nextbutton.place(relx=0.5, rely=0.7, anchor="center")
 
+# this function is a dependancy button containing all the items for displayign the joke
 def dependancybutton():
     global punchline_text
     punchline_text=""
@@ -32,6 +38,7 @@ def dependancybutton():
     punchlinelabel.config(text="")
     nextbutton.place_forget()
 
+# button used to show the punchline of the joke
 def showJoke():
     punchlinelabel.config(text=punchline_text)
 
@@ -42,6 +49,7 @@ def back():
     dependancybutton()
     showframe(mainmenu)
 
+# main menu frame, used to display the first thing the user sees
 mainmenu = tk.Frame(root, width="1080", height="720", bg="lightblue")
 menulabel1 = tk.Label(mainmenu, text="The JOKER's Circus!", font=("Arial", 24,), fg="black")
 menulabel1.place(relx=0.5, rely=0.2, anchor="center")
@@ -51,6 +59,7 @@ backbutton = tk.Button(mainmenu, text="Quit", font=("Arial", 20), fg="black", wi
 backbutton.place(relx=0.5, rely=0.8, anchor="center")
 mainmenu.place(x=0, y=0)
 
+# another frame used to display the jokes 
 jokepage = tk.Frame(root, width="1080", height="720", bg="lightblue")
 jokelabel = tk.Label(jokepage, text="", font=("Arial", 20), fg="black")
 jokelabel.place(relx=0.5, rely=0.2, anchor="center")
