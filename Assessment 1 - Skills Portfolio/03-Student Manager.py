@@ -97,7 +97,7 @@ def show_individual():
     search_button = tk.Button(individualmenu, text="Search", command=search)
     search_button.place(relx=0.5, rely=0.3, anchor="center")
 
-#These functions are used for sorting the HIGHEST and LOWEST scored students
+#These functions are used for sorting the HIGHEST and LOWEST scored students, along with a system that organizes it alphabetically
 def highest_score():
     top_student = max(students, key=percentage)
     show("STUDENT WITH HIGHEST MARK:\n\n" + library(top_student))
@@ -105,6 +105,33 @@ def highest_score():
 def lowest_score():
     bottom_student = min(students, key=percentage)
     show("STUDENT WITH LOWEST MARK:\n\n" + library(bottom_student))
+
+def alphabetical_score():
+    message = "ALPHABETICAL ORDER (A-Z):\n\n"
+    for student in sorted(students, key=lambda s: s["name"].lower()):
+        message += library(student) + "\n"
+    show(message)
+
+# A sort menu, it is a toplevel that sorts based on the button clicked:the highest/lowest scored students, and the alphabetical order
+def show_sort():
+    sort_menu = tk.Toplevel(mainmenu)
+    sort_menu.title("Sort Tab")
+    sort_menu.geometry("400x350")
+    sort_menu.resizable(False, False)
+
+    sort_title = tk.Label(sort_menu, text="Choose How to Sort:", font=("Arial", 12))
+    sort_title.place(relx=0.5, rely=0.1, anchor="center")
+
+    def choose(action):
+        action()
+        sort_menu.destroy() 
+
+    view_alphabetical = tk.Button (sort_menu, text="View Alphabetical (A-Z)", command=lambda: choose(alphabetical_score))
+    view_alphabetical.place(relx=0.5, rely=0.3, anchor="center")
+    view_highest = tk.Button(sort_menu, text="View Highest", command=lambda: choose(highest_score))
+    view_highest.place(relx=0.5, rely=0.5, anchor="center")
+    view_lowest = tk.Button(sort_menu, text="View Lowest", command=lambda: choose(lowest_score))
+    view_lowest.place(relx=0.5, rely=0.7, anchor="center")
 
 
 # the actual app/software
@@ -117,10 +144,8 @@ view_all = tk.Button(mainmenu, text="View all Students", command=show_allstudent
 view_all.place(relx=0.2, rely=0.2, anchor="center")
 individual = tk.Button(mainmenu, text="View Individual Students", command=show_individual)
 individual.place(relx=0.4, rely=0.2, anchor="center")
-view_highest = tk.Button(mainmenu, text="View Highest", command=highest_score)
-view_highest.place(relx=0.4, rely=0.3, anchor="center")
-view_lowest = tk.Button(mainmenu, text="View Lowest", command=lowest_score)
-view_lowest.place(relx=0.4, rely=0.4, anchor="center")
+sort_button = tk.Button(mainmenu, text="SORT", command=show_sort)
+sort_button.place(relx=0.6, rely=0.2, anchor="center")
 mainmenu.place(x=0, y=0)
 
 
