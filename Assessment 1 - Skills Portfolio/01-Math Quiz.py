@@ -1,9 +1,11 @@
+# CODELAB ASSESSMENT - Exercise 1 
+# By Hanz Athane Iñigo G. Muñoz / Cyber Security Y2 G1
 import random
 import tkinter as tk
 from tkinter import *
 from random import randint, choice
 
-# the main items
+# the main variables
 root = tk.Tk()
 root.title("Math Quiz")
 root.geometry("1080x720")
@@ -350,6 +352,6 @@ scorelabel3.place(relx=0.5, rely=0.7, anchor="center")
 advanced.place(x=0, y=0)
 
 menu.tkraise() # <- this allows the menu to be the first frame that the program is showing
-root.mainloop()
+root.mainloop() # absolute necessity, keeps the window open
 
 # thank you for your time :)

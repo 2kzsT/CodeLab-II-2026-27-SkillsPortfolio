@@ -3,55 +3,57 @@
 import random
 import tkinter as tk
 
-# the main items
+# the main variables
 root = tk.Tk()
 root.title("jokes!")
 root.geometry("1080x720")
 root.resizable(False, False)
 
-# function used to show which frame is being displayed
+# this function allows the frames to be switched between eachother, this function brings the frame getting called so it displays the frame to the user
 def showframe(frame):
     frame.tkraise()
 
-# this function gathers all the data required to display the jokes
-with open("randomJokes.txt", "r", encoding="utf-8") as file:
-    joke = [line for line in file.readlines() if "?" in line]
-    punchline_text=""
+# this function is responsible for analyzing the data in the .txt file or "reading" it
+with open("randomJokes.txt", "r", encoding="utf-8") as file: # reads the file
+    joke = [line for line in file.readlines() if "?" in line] # loops through each line and only keeps ones with "?", and each kept line is one joke w/ the question and punchline in the same line
+    punchline_text="" # stores the punchline of the text in screen, starting empty to make room for a joke
 
-# the function used to display the joke being shown in the screen
+# this function runs when the displayjoke button is clicked 
 def jokeGenerator():
-    if punchline_text == "":
+    if punchline_text == "": # only displays when a joke is NOT shown, so clicking the button again doesnt replace the joke 
         nextjoke()
 
-# this function changes the code into a random one selected from the .txt, repeating over and over
+# picks a random joke and shows the joke and punchline to show for the other functions
 def nextjoke():
-    global punchline_text
-    line1, line2 = random.choice(joke).split("?", 1)
-    jokelabel.config(text=line1 + "?")
-    punchline_text = line2.strip()
-    punchlinelabel.config(text="")
-    nextbutton.place(relx=0.5, rely=0.7, anchor="center")
+    global punchline_text # global lets the function configure the text outside of it
+    line1, line2 = random.choice(joke).split("?", 1) # picks one joke line then splits it, line 1= is the joke, and line2 is the punchlibe
+    jokelabel.config(text=line1 + "?") # shows the joke
+    punchline_text = line2.strip() # saves the punchline
+    punchlinelabel.config(text="") # hides the punchline until the user wills it 
+    nextbutton.place(relx=0.5, rely=0.7, anchor="center") #"next joke" button
 
-# this function is a dependancy button containing all the items for displayign the joke
+# this function clears and resets everything when no joke was displayed
 def dependancybutton():
     global punchline_text
-    punchline_text=""
-    jokelabel.config(text="")
-    punchlinelabel.config(text="")
-    nextbutton.place_forget()
+    punchline_text="" 
+    jokelabel.config(text="") # clears the joke
+    punchlinelabel.config(text="") # clears the punchline
+    nextbutton.place_forget() # hides the next joke button
 
-# button used to show the punchline of the joke
+# this function runs when the show punchline button is clicked, showing the punchline
 def showJoke():
     punchlinelabel.config(text=punchline_text)
 
+# quits the program
 def quit():
     root.destroy()
 
+# clears the joke and redirects the user back to the main menu
 def back():
     dependancybutton()
     showframe(mainmenu)
 
-# main menu frame, used to display the first thing the user sees
+# main menu frame, this is the frame that shows when the user first runs the program
 mainmenu = tk.Frame(root, width="1080", height="720", bg="lightblue")
 menulabel1 = tk.Label(mainmenu, text="The JOKER's Circus!", font=("Arial", 24,), fg="black")
 menulabel1.place(relx=0.5, rely=0.2, anchor="center")
@@ -61,7 +63,7 @@ backbutton = tk.Button(mainmenu, text="Quit", font=("Arial", 20), fg="black", wi
 backbutton.place(relx=0.5, rely=0.8, anchor="center")
 mainmenu.place(x=0, y=0)
 
-# another frame used to display the jokes 
+# a frame used to display all the jokes (the main frame basically)
 jokepage = tk.Frame(root, width="1080", height="720", bg="lightblue")
 jokelabel = tk.Label(jokepage, text="", font=("Arial", 20), fg="black")
 jokelabel.place(relx=0.5, rely=0.2, anchor="center")
@@ -76,5 +78,5 @@ backbutton = tk.Button(jokepage, text="Back", font=("Arial", 20), fg="black", wi
 backbutton.place(relx=0.5, rely=0.8, anchor="center")
 jokepage.place(x=0, y=0)
 
-mainmenu.tkraise()
-root.mainloop()
+mainmenu.tkraise() # <-- makes the main menu the first thing that shows when the program is ran
+root.mainloop() # absolute necessity, keeps the window open
